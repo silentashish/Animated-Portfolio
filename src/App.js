@@ -1,6 +1,10 @@
 import React from 'react';
 import styles from './App.module.css';
+import Masonry from 'react-masonry-component';
 
+const masonryOptions = {
+  transitionDuration: 0
+};
 
 export default class App extends React.Component{
   constructor(props) {
@@ -70,6 +74,8 @@ export default class App extends React.Component{
     })
   }
 
+  
+
   render(){
     if(this.state.loading){
       return(
@@ -87,10 +93,23 @@ export default class App extends React.Component{
           <a onClick={() =>this.selectItem('graphics')}>Graphics</a>
         </div>
 
-        <div className={styles.row}>
-          {this.gridView()}
+       
+        <Masonry
+                className={'my-gallery-class'} // default ''
+                elementType={'ul'} // default 'div'
+                options={masonryOptions} // default {}
+                disableImagesLoaded={false} // default false
+                updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+                
+            >
+               <div className={styles.row}>
+                {this.gridView()}
+               </div>
+               
+            </Masonry>
+          
         </div>
-      </div>
+      
     )
   }
 }
