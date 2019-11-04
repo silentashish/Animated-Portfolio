@@ -1,10 +1,10 @@
-import React from 'react';
+
+
+import React, { Component } from "react";
+import { Flipper, Flipped } from "react-flip-toolkit";
 import styles from './App.module.css';
-import FlipMove from 'react-flip-move';
 
-
-
-export default class App extends React.Component{
+class ListShuffler extends Component{
   constructor(props) {
     super(props);
     this.state={
@@ -15,43 +15,39 @@ export default class App extends React.Component{
     this.selectItem=this.selectItem.bind(this);
   }
 
+  
+  // {
+  //   data:['https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+  //   'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png',
+  //   'https://homepages.cae.wisc.edu/~ece533/images/baboon.png',
+  //   'https://homepages.cae.wisc.edu/~ece533/images/barbara.bmp',
+  //   'https://homepages.cae.wisc.edu/~ece533/images/boat.png',
+  //   'https://homepages.cae.wisc.edu/~ece533/images/boy.bmp',
+  //   'https://homepages.cae.wisc.edu/~ece533/images/cat.png',
+  //   'https://homepages.cae.wisc.edu/~ece533/images/pool.png',
+  //   'https://homepages.cae.wisc.edu/~ece533/images/watch.png']
+  // }
+
   componentDidMount() {
-    fetch('http://www.json-generator.com/api/json/get/cpMYlZcDuG?indent=2')
+    fetch('http://www.json-generator.com/api/json/get/cpnBxavYBK?indent=2')
     .then(response=>response.json())
     .then(responseJson =>
+      {
       this.setState({
         data:responseJson.array,
         show:responseJson.array,
         loading:false
       })
-    )
-  }
-  
-  gridView = () =>{
-    return this.state.show.map((item) =>
-    {
-      return(
-        <div className={`${styles.column} ${styles.hvrbox}`}>
-          <img style={{width:'100%', height:'30vh'}} src={item.photo} alt="" className={styles.hvrboxlayerbottom}/>
-          <div>{item.name}</div>
-          <div className={`${styles.hvrboxlayertop} ${styles.hvrboxlayerslideup}`}>
-            <div className={styles.hvrboxtext}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce porttitor ligula porttitor, lacinia sapien non.</div>
-          </div>
-        </div>
-        // <div className={styles.column}>
-        //   <div className={styles.content}>
-        //     <img style={{width:'100%', height:'25vh'}} src={item.photo} alt="Mountains"s/>
-        //     <h3>{item.name}</h3>
-        //   </div>
-          
-        //   <div className={styles.detail}>
-        //     <div>I am a text</div>
-        //     <div>I carry Information</div>
-        //   </div>
-        // </div>
-      )
+      console.log(this.state.data);
     }
     )
+  }
+
+  shuffleList = () => {
+    const newdata =[...this.state.s,'https://homepages.cae.wisc.edu/~ece533/images/boat.png'] 
+    this.setState({
+      data:newdata
+    })
   }
 
   selectAll = () =>{
@@ -72,54 +68,44 @@ export default class App extends React.Component{
     })
   }
 
-  
-
-  render(){
-    if(this.state.loading){
+    gridView = () =>{
+    return this.state.show.map((item) =>
+    {
       return(
-        <div>Loading...</div>
+        <Flipped key={item} flipId={item.id}>
+          <div className={`${styles.column} ${styles.hvrbox}`}>
+            <img style={{width:'100%', height:'30vh'}} src={item.photo} alt="" className={styles.hvrboxlayerbottom}/>
+            <div>{item.name}</div>
+            <div className={`${styles.hvrboxlayertop} ${styles.hvrboxlayerslideup}`}>
+              <div className={styles.hvrboxtext}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce porttitor ligula porttitor, lacinia sapien non.</div>
+            </div>
+          </div>
+        </Flipped>
       )
     }
-    return(
-      <div className={styles.red}>
-
-        <div className={`${styles.container} ${styles.topBotomBordersOut}`}>
-          <a onClick={this.selectAll}>All</a>
-          <a onClick={() =>this.selectItem('webdesign')}>Web Design</a>
-          <a onClick={() =>this.selectItem('webdev')}>Web Development</a>
-          <a onClick={() =>this.selectItem('mobile')}>Mobile</a>
-          <a onClick={() =>this.selectItem('graphics')}>Graphics</a>
-        </div>
-
-        <div className={styles.row}>
-          <FlipMove 
-          staggerDelayBy={50}
-          enterAnimation={{
-            from: {
-              transform: 'rotateX(180deg)',
-              opacity: 0.1,
-            },
-            to: {
-              transform: '',
-            },
-          }}
-          leaveAnimation={{
-            from: {
-               transform: '',
-            },
-            to: {
-              transform: 'rotateX(-120deg)',
-              opacity: 0.1,
-            },
-          }}
-          >
-                {this.gridView()}
-          
-          </FlipMove>      
-            
-        </div>    
-          
-        </div>
     )
   }
-}
+  render(){
+    return (
+            <div className={styles.red}>
+              <div className={`${styles.container} ${styles.topBotomBordersOut}`}>
+                <a onClick={this.selectAll}>All</a>
+                <a onClick={() =>this.selectItem('webdesign')}>Web Design</a>
+                <a onClick={() =>this.selectItem('webdev')}>Web Development</a>
+                <a onClick={() =>this.selectItem('mobile')}>Mobile</a>
+                <a onClick={() =>this.selectItem('graphics')}>Graphics</a>
+              </div>
+              <div className={styles.row}>
+                <Flipper flipKey={this.state.show}>
+                  {this.gridView()}
+                </Flipper>
+              </div>
+            
+      </div>
+    );
+  }
+};
+
+export default ListShuffler;
+
+
