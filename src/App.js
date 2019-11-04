@@ -93,23 +93,13 @@ export default class App extends React.Component{
           <a onClick={() =>this.selectItem('graphics')}>Graphics</a>
         </div>
 
-       
-        <Masonry
-                className={'my-gallery-class'} // default ''
-                elementType={'ul'} // default 'div'
-                options={masonryOptions} // default {}
-                disableImagesLoaded={false} // default false
-                updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-                
-            >
-               <div className={styles.row}>
-                {this.gridView()}
-               </div>
-               
-            </Masonry>
+        <div className={styles.row}>
+          <Masonry>
+            {this.gridView()}
+          </Masonry>
+        </div>    
           
         </div>
-      
     )
   }
 }
