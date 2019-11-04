@@ -1,10 +1,8 @@
 import React from 'react';
 import styles from './App.module.css';
-import Masonry from 'react-masonry-component';
+import FlipMove from 'react-flip-move';
 
-const masonryOptions = {
-  transitionDuration: 0
-};
+
 
 export default class App extends React.Component{
   constructor(props) {
@@ -94,9 +92,31 @@ export default class App extends React.Component{
         </div>
 
         <div className={styles.row}>
-          <Masonry>
-            {this.gridView()}
-          </Masonry>
+          <FlipMove 
+          staggerDelayBy={50}
+          enterAnimation={{
+            from: {
+              transform: 'rotateX(180deg)',
+              opacity: 0.1,
+            },
+            to: {
+              transform: '',
+            },
+          }}
+          leaveAnimation={{
+            from: {
+               transform: '',
+            },
+            to: {
+              transform: 'rotateX(-120deg)',
+              opacity: 0.1,
+            },
+          }}
+          >
+                {this.gridView()}
+          
+          </FlipMove>      
+            
         </div>    
           
         </div>
